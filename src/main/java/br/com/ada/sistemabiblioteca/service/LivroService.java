@@ -61,4 +61,20 @@ public class LivroService {
         }
         throw new EntityNotFoundException("Livro não encontrado!");
     }
+
+    public Object filtrarPorNomeOuIsbn(String nome, String isbn) {
+        List<LivroEntity> listaEntities = livroRepository.findByNomeOrIsbn(nome,isbn);
+        return livroMapper.updateListaLivroDTO(listaEntities);
+    }
+
+    public Object filtrarPorEditora(Long editoraId) {
+        List<LivroEntity> listaEntities = livroRepository.findByEditoraId(editoraId);
+        return livroMapper.updateListaLivroDTO(listaEntities);
+    }
+
+    public Object filtrarPorCategoria(Long categoriaId) {
+        List<LivroEntity> listaEntities = livroRepository.findByCategoriaId(categoriaId);
+        return livroMapper.updateListaLivroDTO(listaEntities);
+    }
+
 }

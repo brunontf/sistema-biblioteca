@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ada.sistemabiblioteca.model.dto.LivroDTO;
@@ -98,4 +99,49 @@ public class LivroController {
                     .body(new MensagemDTO(ex.getMessage()));
         }
     }
+
+    @GetMapping("/filtrar")
+    public ResponseEntity<Object> filtrarPorNomeOuIsbn(
+        @RequestParam(name = "nome",defaultValue = "") String nome,
+        @RequestParam(name = "isbn",defaultValue = "") String isbn
+    ) {
+        try {
+            return ResponseEntity.ok(livroService.filtrarPorNomeOuIsbn(nome,isbn));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new MensagemDTO(ex.getMessage()));
+        }
+    }
+
+    @GetMapping("/filtrar_por_editora")
+    public ResponseEntity<Object> filtrarPorEditora(
+        @RequestParam(name = "editoraId",defaultValue = "") Long editoraId
+    ) {
+        try {
+            return ResponseEntity.ok(livroService.filtrarPorEditora(editoraId));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new MensagemDTO(ex.getMessage()));
+        }
+    }
+
+    @GetMapping("/filtrar_por_categoria")
+    public ResponseEntity<Object> filtrarPorCategoria(
+        @RequestParam(name = "categoriaId",defaultValue = "") Long categoriaId
+    ) {
+        try {
+            return ResponseEntity.ok(livroService.filtrarPorCategoria(categoriaId));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new MensagemDTO(ex.getMessage()));
+        }
+    }
+
+
 }
