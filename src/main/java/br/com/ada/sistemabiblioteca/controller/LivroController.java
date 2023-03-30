@@ -28,9 +28,11 @@ public class LivroController {
     LivroService livroService;
 
     @GetMapping()
-    public ResponseEntity<Object> listarTodos() {
+    public ResponseEntity<Object> listarTodos(
+        @RequestParam(name = "numeroPagina",defaultValue = "0") int numeroPagina, 
+        @RequestParam(name = "elementosPorPagina",defaultValue = "-1") int nElemPorPag) {
         try {
-            return ResponseEntity.ok(livroService.listarTodos());
+            return ResponseEntity.ok(livroService.listarTodos(numeroPagina,nElemPorPag));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseEntity

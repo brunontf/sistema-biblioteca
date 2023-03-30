@@ -23,7 +23,7 @@ public interface LivroRepository extends JpaRepository<LivroEntity, Long> {
 
     @Query("SELECT a FROM LivroEntity a "
             + "WHERE (a.isbn) LIKE CONCAT('%',(:isbn),'%')")
-    List<LivroEntity> findByIsbn(@Param("isbn") String isbn );
+    List<LivroEntity> findByIsbn(@Param("isbn") String isbn);
 
     @Query("SELECT a FROM LivroEntity a "
             + "WHERE (a.editoraEntity.id) LIKE CONCAT('%',(:editoraId),'%') ")
@@ -33,6 +33,4 @@ public interface LivroRepository extends JpaRepository<LivroEntity, Long> {
             + "WHERE (a.categoriaEntity.id) LIKE CONCAT('%',(:categoriaId),'%') ")
     List<LivroEntity> findByCategoriaId(@Param("categoriaId") Long categoriaId);
 
-//     4 - Crie um endpoint que possa buscar o livro pelo nome ou pelo número isbn ou pelos dois
-//     Crie a parte de autenticação de usuário e faça endpoints para salvar e buscar os livros favoritos do usuário logado
 }

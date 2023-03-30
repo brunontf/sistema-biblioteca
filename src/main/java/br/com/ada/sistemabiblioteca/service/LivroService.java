@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.ada.sistemabiblioteca.model.dto.LivroDTO;
@@ -19,8 +21,15 @@ public class LivroService {
     @Autowired
     LivroMapper livroMapper;
     
-    public List<LivroDTO> listarTodos() {
-        List<LivroEntity> listaEntities = livroRepository.findAll();
+    public List<LivroDTO> listarTodos(int numeroPagina, int nElemPorPag) {
+        if(nElemPorPag==-1){
+            List<LivroEntity> listaEntities = livroRepository.findAll();
+            return livroMapper.updateListaLivroDTO(listaEntities);
+        }
+
+        PageRequest pageRequest = PageRequest.of(numeroPagina, nElemPorPag);
+        Page<LivroEntity> listaLivrosPaginados = livroRepository.findAll(pageRequest);
+        List<LivroEntity> listaEntities = listaLivrosPaginados.toList();
         return livroMapper.updateListaLivroDTO(listaEntities);
     }
 
@@ -63,6 +72,7 @@ public class LivroService {
     }
 
     public List<LivroDTO> filtrarPorNomeOuIsbn(String nome, String isbn) {
+
         if (!nome.isBlank() && !isbn.isBlank()) {
             List<LivroEntity> listaEntities = livroRepository.findByNomeAndIsbn(nome, isbn);
             return livroMapper.updateListaLivroDTO(listaEntities);
