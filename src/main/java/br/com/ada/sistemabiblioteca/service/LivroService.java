@@ -62,9 +62,21 @@ public class LivroService {
         throw new EntityNotFoundException("Livro não encontrado!");
     }
 
-    public Object filtrarPorNomeOuIsbn(String nome, String isbn) {
-        List<LivroEntity> listaEntities = livroRepository.findByNomeOrIsbn(nome,isbn);
-        return livroMapper.updateListaLivroDTO(listaEntities);
+    public List<LivroDTO> filtrarPorNomeOuIsbn(String nome, String isbn) {
+        if (!nome.isBlank() && !isbn.isBlank()) {
+            List<LivroEntity> listaEntities = livroRepository.findByNomeAndIsbn(nome, isbn);
+            return livroMapper.updateListaLivroDTO(listaEntities);
+            
+        } else if (!nome.isBlank()) {
+            List<LivroEntity> listaEntities = livroRepository.findByNome(nome);
+            return livroMapper.updateListaLivroDTO(listaEntities);
+            
+        } else if (!isbn.isBlank()) {
+            List<LivroEntity> listaEntities = livroRepository.findByIsbn(isbn);
+            return livroMapper.updateListaLivroDTO(listaEntities);
+        }
+
+        throw new EntityNotFoundException("nome e isbn não podem ser brancos!");
     }
 
     public Object filtrarPorEditora(Long editoraId) {

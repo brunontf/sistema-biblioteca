@@ -115,7 +115,7 @@ public class LivroController {
         }
     }
 
-    @GetMapping("/filtrar_por_editora")
+    @GetMapping("/filtrarPorEditora")
     public ResponseEntity<Object> filtrarPorEditora(
         @RequestParam(name = "editoraId",defaultValue = "") Long editoraId
     ) {
@@ -129,7 +129,7 @@ public class LivroController {
         }
     }
 
-    @GetMapping("/filtrar_por_categoria")
+    @GetMapping("/filtrarPorCategoria")
     public ResponseEntity<Object> filtrarPorCategoria(
         @RequestParam(name = "categoriaId",defaultValue = "") Long categoriaId
     ) {
